@@ -1,0 +1,50 @@
+name: Branch Deleted
+on: delete
+
+env:
+  COMPONENT_NAME: qubership-mongodb
+  TAG_NAME: ${{ github.event.ref }}
+
+jobs:
+  delete:
+    if: github.event.ref_type == 'branch'
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        component:
+          - name: qubership-mongodb-tests
+            context: ""
+          - name: qubership-mongodb-transfer
+            context: ""
+          - name: qubership-mongodb
+            context: ""
+            mongo_version: 7.0.5
+          - name: qubership-mongodb
+            context: ""
+            mongo_version: 8.0.3
+    steps:
+      - name: Prepare Tag
+        run: |
+            REF_NAME=$(echo "${{ github.ref }}" | sed 's@refs/tags/@@;s@refs/heads/@@;s@/@_@g')
+            TAG_SUFFIX=${REF_NAME:-latest}
+            echo "TAG_SUFFIX=$TAG_SUFFIX" >> $GITHUB_ENV
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${GITHUB_ACTOR}
+          password: ${{secrets.GITHUB_TOKEN}}
+      - name: Get package IDs for delete 
+        id: get-ids-for-delete
+        uses: Netcracker/get-package-ids@v0.0.1
+        with:
+          component-name: ${{ matrix.component.name }}
+          component-tag: ${{ env.TAG_NAME }}
+          access-token: ${{secrets.GITHUB_TOKEN}}
+      - uses: actions/delete-package-versions@v5
+        with: 
+          package-name: ${{ matrix.component.name }}
+          package-type: 'container'
+          package-version-ids: ${{ steps.get-ids-for-delete.outputs.ids-for-delete }}
+        if: ${{ steps.get-ids-for-delete.outputs.ids-for-delete != '' }}
