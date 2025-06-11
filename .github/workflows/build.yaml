@@ -78,7 +78,7 @@ jobs:
           push: ${{ env.PUSH }}
           build-args: |
             MONGO_VERSION=${{ matrix.component.mongo_version }}
-          tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ env.TAG_SUFFIX }}_${{ matrix.component.mongo_version }}
+          tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ matrix.component.mongo_version }}-${{ env.TAG_SUFFIX }}
           provenance: false
       - uses: actions/delete-package-versions@v5
         with: 
