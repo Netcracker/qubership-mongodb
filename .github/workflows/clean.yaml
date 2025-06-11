@@ -37,7 +37,7 @@ jobs:
         uses: Netcracker/get-package-ids@v0.0.1
         with:
           component-name: ${{ matrix.component.name }}
-          component-tag: ${{ matrix.component.mongo_version }}-${{ env.TAG_NAME }}
+          component-tag: ${{ env.TAG_NAME }}_${{ matrix.component.mongo_version }}
           access-token: ${{secrets.GITHUB_TOKEN}}
       - uses: actions/delete-package-versions@v5
         with: 

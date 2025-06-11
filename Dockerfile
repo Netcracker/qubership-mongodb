@@ -17,7 +17,6 @@ RUN mkdir -p /data/db /data/configdb && \
 # Copy original entrypoint script to modify user from 999 to 1001
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-RUN echo "test"
 
 # Set user back to root so gosu can switch to mongodb (uid 1001)
 USER root

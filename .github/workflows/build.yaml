@@ -56,16 +56,13 @@ jobs:
           username: ${GITHUB_ACTOR}
           password: ${{secrets.GITHUB_TOKEN}}
       - name: Prepare Tag
-        run: |
-            REF_NAME=$(echo "${{ github.ref }}" | sed 's@refs/tags/@@;s@refs/heads/@@;s@/@_@g')
-            TAG_SUFFIX=${REF_NAME:-latest}
-            echo "TAG_SUFFIX=$TAG_SUFFIX" >> $GITHUB_ENV
+        run: echo "TAG_NAME=$(echo ${TAG_NAME} | sed 's@refs/tags/@@;s@refs/heads/@@;s@/@_@g')" >> $GITHUB_ENV
       - name: Get package IDs for delete 
         id: get-ids-for-delete
         uses: Netcracker/get-package-ids@v0.0.1
         with:
           component-name: ${{ matrix.component.name }}
-          component-tag: ${{ env.TAG_NAME }}
+          component-tag: ${{ env.TAG_NAME }}_${{ matrix.component.mongo_version }}
           access-token: ${{secrets.GITHUB_TOKEN}} 
         if: ${{ env.PUSH }}
       - name: Build and push
@@ -78,7 +75,7 @@ jobs:
           push: ${{ env.PUSH }}
           build-args: |
             MONGO_VERSION=${{ matrix.component.mongo_version }}
-          tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ matrix.component.mongo_version }}-${{ env.TAG_SUFFIX }}
+          tags: ghcr.io/netcracker/${{ matrix.component.name }}:${{ env.TAG_NAME }}_${{ matrix.component.mongo_version }}
           provenance: false
       - uses: actions/delete-package-versions@v5
         with: 
