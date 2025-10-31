@@ -3,6 +3,9 @@ FROM mongo:${MONGO_VERSION}
 
 USER root
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends tcpdump dnsutils iputils-ping
+
 # Remove the existing mongodb user/group if needed (optional, careful with this)
 RUN deluser mongodb || true && delgroup mongodb || true
 
