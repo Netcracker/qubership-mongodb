@@ -30,7 +30,7 @@ jobs:
           - name: qubership-mongodb
             file: Dockerfile
             context: ""
-            mongo_version: 7.0.5
+            mongo_version: 7.0.25
           - name: qubership-mongodb
             file: Dockerfile
             context: ""
