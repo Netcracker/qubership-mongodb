@@ -19,6 +19,9 @@ jobs:
             context: ""
           - name: qubership-mongodb
             context: ""
+            mongo_version: 7.0.25
+          - name: qubership-mongodb
+            context: ""
             mongo_version: 7.0.5
           - name: qubership-mongodb
             context: ""
