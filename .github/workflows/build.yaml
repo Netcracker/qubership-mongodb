@@ -39,6 +39,10 @@ jobs:
             file: Dockerfile
             context: ""
             mongo_version: 8.0.3
+          - name: qubership-mongodb
+            file: Dockerfile
+            context: ""
+            mongo_version: 8.0.15
     runs-on: ubuntu-24.04
     steps:
       - name: Validate
