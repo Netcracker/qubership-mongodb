@@ -19,7 +19,7 @@ jobs:
             context: ""
           - name: qubership-mongodb
             context: ""
-            mongo_version: 7.0.25
+            mongo_version: 7.0.28
           - name: qubership-mongodb
             context: ""
             mongo_version: 7.0.5
@@ -28,7 +28,7 @@ jobs:
             mongo_version: 8.0.3
           - name: qubership-mongodb
             context: ""
-            mongo_version: 8.0.15
+            mongo_version: 8.0.17
     steps:
       - name: Prepare Tag
         run: echo "TAG_NAME=$(echo ${TAG_NAME} | sed 's@refs/tags/@@;s@refs/heads/@@;s@/@_@g')" >> $GITHUB_ENV
